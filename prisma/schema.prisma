@@ -1,0 +1,115 @@
+// Prisma Schema for Performance System V2.0
+// 浦发广分业绩统计系统 - 严格按照 1.0 版本数据结构设计
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户表
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique // 登录账号
+  password  String            // 密码（bcrypt 加密）
+  name      String            // 真实姓名
+  phone     String?           // 手机号（可选）
+  role      UserRole
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联：该用户提交的日报记录
+  dailyReports DailyReport[]
+
+  @@map("users")
+}
+
+// 用户角色枚举
+enum UserRole {
+  DIRECT_MANAGER   // 直营经理（自主录入）
+  PROJECT_MANAGER  // 项目经理（查看所有数据）
+}
+
+// 日报主记录表（每个直营经理每天一条）
+model DailyReport {
+  id     String   @id @default(uuid())
+  userId String   // 提交人（直营经理）
+  date   DateTime // 业绩日期
+
+  // 企微运营指标（可选，支持日终补充）
+  importedCustomers  Int? // 已导入企微客户数
+  certifiedCustomers Int? // 已认证企微数
+  todayCoverage      Int? // 今日企微覆盖客户数
+  todayReplies       Int? // 企微回复客户数
+
+  // 关联：该日报的业绩记录（可多条）
+  performances Performance[]
+
+  // 关联：该日报的商机记录（可多条）
+  opportunities Opportunity[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联：提交人
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // 约束：每个用户每天只能有一条记录
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+  @@map("daily_reports")
+}
+
+// 业绩记录表（每条日报可有多条业绩记录）
+model Performance {
+  id            String @id @default(uuid())
+  dailyReportId String // 所属日报ID
+
+  // 业绩数据（单位：万元）
+  outsideGold Float @default(0) // 行外吸金
+  demand      Float @default(0) // 活期
+  deposit     Float @default(0) // 存款
+  wealth      Float @default(0) // 理财
+  loan        Float @default(0) // 贷款
+  gold        Float @default(0) // 黄金
+  insurance   Float @default(0) // 保险
+  fund        Float @default(0) // 基金
+
+  // 信用卡（户数）
+  creditCard Int @default(0) // 信用卡开户数
+
+  // 业绩归属信息
+  branch  String @default("") // 所属支行（可选）
+  product String @default("") // 产品名称
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联：所属日报
+  dailyReport DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+
+  @@index([dailyReportId])
+  @@map("performances")
+}
+
+// 商机记录表（每条日报可有多条商机记录）
+model Opportunity {
+  id            String @id @default(uuid())
+  dailyReportId String // 所属日报ID
+
+  category String // 商机类别（如：存款商机、理财商机等）
+  count    Int // 商机数量
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联：所属日报
+  dailyReport DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+
+  @@index([dailyReportId])
+  @@map("opportunities")
+}

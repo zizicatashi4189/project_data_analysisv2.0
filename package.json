@@ -1,0 +1,41 @@
+{
+  "name": "performance-system",
+  "version": "2.0.0",
+  "description": "浦发广分业绩统计系统 - 2025最先进技术栈",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:push": "node -r dotenv/config node_modules/.bin/prisma db push dotenv_config_path=.env.local",
+    "db:studio": "node -r dotenv/config node_modules/.bin/prisma studio dotenv_config_path=.env.local",
+    "init:users": "node -r dotenv/config ./node_modules/.bin/tsx scripts/init-users.ts dotenv_config_path=.env.local"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "@supabase/supabase-js": "^2.47.0",
+    "bcryptjs": "^3.0.3",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.3",
+    "iron-session": "^8.0.4",
+    "lucide-react": "^0.469.0",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.4.49",
+    "prisma": "^6.1.0",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.6",
+    "typescript": "^5.7.2"
+  }
+}
