@@ -385,21 +385,194 @@ SUPABASE_SERVICE_ROLE_KEY=eyJxxx...
 
 ## 🚦 快速开始
 
-### 安装依赖
+### 前置要求
+
+确保你的系统已安装：
+- **Node.js** 18.0 或更高版本
+- **npm** 或 **pnpm** 包管理器
+- **Git**（用于版本控制）
+
+检查版本：
+```bash
+node -v    # 应该 >= 18.0
+npm -v     # 应该 >= 9.0
+```
+
+### 1. 克隆/获取项目
+
+**从 GitHub 克隆：**
+```bash
+git clone git@github.com:zizicatashi4189/project_data_analysisv2.0.git
+cd project_data_analysisv2.0
+```
+
+**或进入已存在的项目目录：**
 ```bash
 cd performance-system
+```
+
+### 2. 安装依赖
+
+```bash
 npm install
 ```
 
-### 配置 Supabase
-按照上面的指南设置 `.env.local`
+这会安装所有需要的包：Next.js 15, React 19, Prisma, Tailwind CSS 等。
 
-### 运行开发服务器
+### 3. 配置环境变量
+
+**创建 `.env.local` 文件：**
+```bash
+cp .env.example .env.local
+```
+
+**编辑 `.env.local`，填入真实配置：**
+```bash
+# Supabase 配置
+NEXT_PUBLIC_SUPABASE_URL=https://wxsuaarbkgzxfoykfkhe.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# 数据库连接
+DATABASE_URL="postgresql://postgres:your-password@db.xxx.supabase.co:5432/postgres"
+
+# Session 密钥（生成一个随机密钥）
+SESSION_SECRET="your-random-32-character-secret-key"
+```
+
+**生成安全的 SESSION_SECRET：**
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
+### 4. 初始化数据库
+
+**推送数据库架构到 Supabase：**
+```bash
+npx prisma db push
+```
+
+**生成 Prisma Client：**
+```bash
+npx prisma generate
+```
+
+### 5. 创建测试用户
+
+```bash
+npm run init:users
+```
+
+这会创建以下测试账号：
+
+**直营经理：**
+- 张三 (zhangsan / 123456)
+- 李四 (lisi / 123456)
+- 王五 (wangwu / 123456)
+
+**项目经理：**
+- 项目经理 (admin / admin123)
+
+### 6. 启动开发服务器
+
 ```bash
 npm run dev
 ```
 
-访问 http://localhost:3000
+**或指定端口：**
+```bash
+npm run dev -- -p 3009
+```
+
+服务器启动后，你会看到：
+```
+▲ Next.js 15.5.6 (Turbopack)
+- Local:        http://localhost:3009
+- Network:      http://192.168.0.47:3009
+✓ Ready in 1032ms
+```
+
+### 7. 访问应用
+
+在浏览器中打开：
+- **本地访问**：http://localhost:3009
+- **网络访问**：http://192.168.0.47:3009（手机可访问）
+
+### 8. 登录测试
+
+使用上面创建的测试账号登录，体验直营经理和项目经理的不同功能。
+
+---
+
+## 🎯 日常启动（已配置完成后）
+
+如果项目已经配置好，日常启动只需：
+
+```bash
+cd performance-system
+npm run dev -- -p 3009
+```
+
+---
+
+## 🛠️ 其他有用的命令
+
+```bash
+# 查看数据库（可视化界面）
+npx prisma studio
+
+# 查看数据库架构
+npx prisma db pull
+
+# 构建生产版本
+npm run build
+
+# 运行生产版本
+npm start
+
+# 类型检查
+npm run type-check
+
+# 代码格式化
+npm run format
+```
+
+---
+
+## ⚠️ 常见问题
+
+### 1. 数据库连接失败
+- 检查 `DATABASE_URL` 是否正确
+- 确认 Supabase 数据库在运行
+- 检查密码中的特殊字符是否正确编码（如 `!` 需要编码为 `%21`）
+
+### 2. 端口被占用
+```bash
+# 使用其他端口
+npm run dev -- -p 3010
+```
+
+### 3. 依赖安装失败
+```bash
+# 清除缓存重新安装
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### 4. Prisma 错误
+```bash
+# 重新生成 Prisma Client
+npx prisma generate
+
+# 重新推送数据库架构
+npx prisma db push --force-reset
+```
+
+### 5. Session 相关错误
+确保 `.env.local` 中已设置 `SESSION_SECRET`，如果没有，使用以下命令生成：
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
 
 ---
 
