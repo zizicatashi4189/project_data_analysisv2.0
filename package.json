@@ -4,9 +4,9 @@
   "description": "浦发广分业绩统计系统 - 2025最先进技术栈",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 3009",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3009",
     "lint": "next lint",
     "db:push": "node -r dotenv/config node_modules/.bin/prisma db push dotenv_config_path=.env.local",
     "db:studio": "node -r dotenv/config node_modules/.bin/prisma studio dotenv_config_path=.env.local",
