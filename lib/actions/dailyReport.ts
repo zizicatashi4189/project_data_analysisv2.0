@@ -111,10 +111,15 @@ export async function submitDailyReport(formData: {
         report: updated,
       }
     } else {
-      // 创建新记录
+      // 创建新记录（添加组织ID以支持多租户）
+      if (!session.organizationId) {
+        return { success: false, message: '用户未关联组织，无法提交日报' }
+      }
+
       const created = await prisma.dailyReport.create({
         data: {
           userId: session.userId,
+          organizationId: session.organizationId,
           date: reportDate,
           importedCustomers: formData.importedCustomers,
           certifiedCustomers: formData.certifiedCustomers,
@@ -265,12 +270,21 @@ export async function getAllDailyReports(
     return { success: false, message: '请先登录' }
   }
 
-  if (session.role !== 'PROJECT_MANAGER') {
-    return { success: false, message: '只有项目经理可以查看所有数据' }
+  if (session.role !== 'PROJECT_MANAGER' && session.role !== 'SUPER_ADMIN') {
+    return { success: false, message: '只有项目经理或系统管理员可以查看所有数据' }
   }
 
   try {
     const where: any = {}
+
+    // 项目经理只能查看自己组织的数据
+    if (session.role === 'PROJECT_MANAGER') {
+      if (!session.organizationId) {
+        return { success: false, message: '项目经理未关联组织' }
+      }
+      where.organizationId = session.organizationId
+    }
+    // SUPER_ADMIN 可以查看所有组织的数据（不添加 organizationId 过滤）
 
     if (startDate && endDate) {
       where.date = {
@@ -318,13 +332,24 @@ export async function getAllManagers() {
     return { success: false, message: '请先登录' }
   }
 
-  if (session.role !== 'PROJECT_MANAGER') {
-    return { success: false, message: '只有项目经理可以查看所有数据' }
+  if (session.role !== 'PROJECT_MANAGER' && session.role !== 'SUPER_ADMIN') {
+    return { success: false, message: '只有项目经理或系统管理员可以查看所有数据' }
   }
 
   try {
+    const where: any = { role: 'DIRECT_MANAGER' }
+
+    // 项目经理只能查看自己组织的直营经理
+    if (session.role === 'PROJECT_MANAGER') {
+      if (!session.organizationId) {
+        return { success: false, message: '项目经理未关联组织' }
+      }
+      where.organizationId = session.organizationId
+    }
+    // SUPER_ADMIN 可以查看所有组织的直营经理
+
     const managers = await prisma.user.findMany({
-      where: { role: 'DIRECT_MANAGER' },
+      where,
       select: {
         id: true,
         name: true,

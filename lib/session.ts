@@ -5,7 +5,9 @@ export interface SessionData {
   userId: string
   username: string
   name: string
-  role: 'DIRECT_MANAGER' | 'PROJECT_MANAGER'
+  role: 'SUPER_ADMIN' | 'DIRECT_MANAGER' | 'PROJECT_MANAGER'
+  organizationId: string | null  // null for SUPER_ADMIN
+  organizationName: string | null  // null for SUPER_ADMIN
   isLoggedIn: boolean
 }
 
@@ -14,6 +16,8 @@ export const defaultSession: SessionData = {
   username: '',
   name: '',
   role: 'DIRECT_MANAGER',
+  organizationId: null,
+  organizationName: null,
   isLoggedIn: false,
 }
 

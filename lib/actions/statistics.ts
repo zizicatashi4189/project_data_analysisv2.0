@@ -10,18 +10,29 @@ export async function getStatistics(startDate: string, endDate: string) {
     return { success: false, message: '请先登录' }
   }
 
-  if (session.role !== 'PROJECT_MANAGER') {
-    return { success: false, message: '只有项目经理可以查看统计数据' }
+  if (session.role !== 'PROJECT_MANAGER' && session.role !== 'SUPER_ADMIN') {
+    return { success: false, message: '只有项目经理或系统管理员可以查看统计数据' }
   }
 
   try {
-    const reports = await prisma.dailyReport.findMany({
-      where: {
-        date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
+    const where: any = {
+      date: {
+        gte: new Date(startDate),
+        lte: new Date(endDate),
       },
+    }
+
+    // 项目经理只能查看自己组织的数据
+    if (session.role === 'PROJECT_MANAGER') {
+      if (!session.organizationId) {
+        return { success: false, message: '项目经理未关联组织' }
+      }
+      where.organizationId = session.organizationId
+    }
+    // SUPER_ADMIN 可以查看所有组织的数据
+
+    const reports = await prisma.dailyReport.findMany({
+      where,
       include: {
         user: {
           select: {
@@ -211,18 +222,29 @@ export async function getBranchSalesDetail(startDate: string, endDate: string) {
     return { success: false, message: '请先登录' }
   }
 
-  if (session.role !== 'PROJECT_MANAGER') {
-    return { success: false, message: '只有项目经理可以查看统计数据' }
+  if (session.role !== 'PROJECT_MANAGER' && session.role !== 'SUPER_ADMIN') {
+    return { success: false, message: '只有项目经理或系统管理员可以查看统计数据' }
   }
 
   try {
-    const reports = await prisma.dailyReport.findMany({
-      where: {
-        date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
+    const where: any = {
+      date: {
+        gte: new Date(startDate),
+        lte: new Date(endDate),
       },
+    }
+
+    // 项目经理只能查看自己组织的数据
+    if (session.role === 'PROJECT_MANAGER') {
+      if (!session.organizationId) {
+        return { success: false, message: '项目经理未关联组织' }
+      }
+      where.organizationId = session.organizationId
+    }
+    // SUPER_ADMIN 可以查看所有组织的数据
+
+    const reports = await prisma.dailyReport.findMany({
+      where,
       include: {
         user: {
           select: {

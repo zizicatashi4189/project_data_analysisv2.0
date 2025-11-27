@@ -575,7 +575,7 @@ export default function SubmitPageClient({
                 value={importedCustomers}
                 onChange={(e) => setImportedCustomers(e.target.value)}
                 placeholder="0"
-                className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div>
@@ -585,7 +585,7 @@ export default function SubmitPageClient({
                 value={certifiedCustomers}
                 onChange={(e) => setCertifiedCustomers(e.target.value)}
                 placeholder="0"
-                className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div>
@@ -595,7 +595,7 @@ export default function SubmitPageClient({
                 value={todayCoverage}
                 onChange={(e) => setTodayCoverage(e.target.value)}
                 placeholder="0"
-                className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <div>
@@ -605,7 +605,7 @@ export default function SubmitPageClient({
                 value={todayReplies}
                 onChange={(e) => setTodayReplies(e.target.value)}
                 placeholder="0"
-                className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -746,16 +746,6 @@ export default function SubmitPageClient({
           )}
         </div>
 
-        {/* 填报说明 */}
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 text-xs text-blue-800">
-          <p className="font-semibold mb-2">填报说明：</p>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>企微运营指标建议日终统一填写并保存</li>
-            <li>业绩和商机随时发生随时记录，添加后立即保存</li>
-            <li>点击已添加的业绩/商机卡片可以编辑</li>
-            <li>所有数据自动保存到数据库</li>
-          </ul>
-        </div>
       </div>
 
       {/* 业绩弹窗 */}
@@ -794,7 +784,7 @@ export default function SubmitPageClient({
                       })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -808,7 +798,7 @@ export default function SubmitPageClient({
                       setTempPerformance({ ...tempPerformance, demand: e.target.value })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -822,7 +812,7 @@ export default function SubmitPageClient({
                       setTempPerformance({ ...tempPerformance, deposit: e.target.value })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -836,7 +826,7 @@ export default function SubmitPageClient({
                       setTempPerformance({ ...tempPerformance, wealth: e.target.value })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -850,7 +840,7 @@ export default function SubmitPageClient({
                       setTempPerformance({ ...tempPerformance, loan: e.target.value })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -864,7 +854,7 @@ export default function SubmitPageClient({
                       setTempPerformance({ ...tempPerformance, gold: e.target.value })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -881,7 +871,7 @@ export default function SubmitPageClient({
                       })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -895,7 +885,7 @@ export default function SubmitPageClient({
                       setTempPerformance({ ...tempPerformance, fund: e.target.value })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -913,7 +903,7 @@ export default function SubmitPageClient({
                       })
                     }
                     placeholder="0"
-                    className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -986,7 +976,7 @@ export default function SubmitPageClient({
                     setTempOpportunity({ ...tempOpportunity, category: e.target.value })
                   }
                   placeholder="如：存款商机、理财商机"
-                  className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                 />
               </div>
 
@@ -999,7 +989,7 @@ export default function SubmitPageClient({
                     setTempOpportunity({ ...tempOpportunity, count: e.target.value })
                   }
                   placeholder="0"
-                  className="w-full px-3 py-3 text-sm border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  className="w-full px-3 py-3 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                 />
               </div>
             </div>

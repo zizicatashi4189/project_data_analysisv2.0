@@ -1,5 +1,5 @@
 // Prisma Schema for Performance System V2.0
-// 私域营销业绩统计系统 - 严格按照 1.0 版本数据结构设计
+// 私域营销业绩统计系统 - 多租户架构支持
 
 generator client {
   provider = "prisma-client-js"
@@ -10,34 +10,60 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 用户表
-model User {
+// 组织表（多租户支持）
+model Organization {
   id        String   @id @default(uuid())
-  username  String   @unique // 登录账号
-  password  String            // 密码（bcrypt 加密）
-  name      String            // 真实姓名
-  phone     String?           // 手机号（可选）
-  role      UserRole
+  name      String   // 组织名称（如：XX银行、YY银行）
+  code      String   @unique // 组织代码（唯一标识）
+  isActive  Boolean  @default(true) // 是否启用
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // 关联：该组织下的用户
+  users User[]
+
+  // 关联：该组织下的日报
+  dailyReports DailyReport[]
+
+  @@map("organizations")
+}
+
+// 用户表
+model User {
+  id             String   @id @default(uuid())
+  username       String   @unique // 登录账号
+  password       String            // 密码（bcrypt 加密）
+  name           String            // 真实姓名
+  phone          String?           // 手机号（可选）
+  role           UserRole
+  organizationId String?           // 所属组织ID（SUPER_ADMIN 为 null）
+  isActive       Boolean  @default(true) // 是否启用
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // 关联：所属组织
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   // 关联：该用户提交的日报记录
   dailyReports DailyReport[]
 
+  @@index([organizationId])
   @@map("users")
 }
 
 // 用户角色枚举
 enum UserRole {
+  SUPER_ADMIN      // 系统管理员（管理所有组织和用户）
   DIRECT_MANAGER   // 直营经理（自主录入）
-  PROJECT_MANAGER  // 项目经理（查看所有数据）
+  PROJECT_MANAGER  // 项目经理（查看组织内所有数据）
 }
 
 // 日报主记录表（每个直营经理每天一条）
 model DailyReport {
-  id     String   @id @default(uuid())
-  userId String   // 提交人（直营经理）
-  date   DateTime // 业绩日期
+  id             String   @id @default(uuid())
+  userId         String   // 提交人（直营经理）
+  organizationId String   // 所属组织ID（用于数据隔离）
+  date           DateTime // 业绩日期
 
   // 企微运营指标（可选，支持日终补充）
   importedCustomers  Int? // 已导入企微客户数
@@ -57,10 +83,15 @@ model DailyReport {
   // 关联：提交人
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  // 关联：所属组织
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
   // 约束：每个用户每天只能有一条记录
   @@unique([userId, date])
   @@index([userId])
   @@index([date])
+  @@index([organizationId])
+  @@index([organizationId, date]) // 复合索引：按组织查询某日数据
   @@map("daily_reports")
 }
 

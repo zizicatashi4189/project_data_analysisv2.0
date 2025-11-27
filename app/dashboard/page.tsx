@@ -25,7 +25,12 @@ export default async function DashboardPage() {
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-900">{session.name}</p>
                 <p className="text-xs text-gray-500">
-                  {session.role === 'DIRECT_MANAGER' ? '直营经理' : '项目经理'}
+                  {session.role === 'SUPER_ADMIN'
+                    ? '系统管理员'
+                    : session.role === 'DIRECT_MANAGER'
+                    ? '直营经理'
+                    : '项目经理'}
+                  {session.organizationName && ` · ${session.organizationName}`}
                 </p>
               </div>
               <form action={logout}>
@@ -49,7 +54,9 @@ export default async function DashboardPage() {
             欢迎回来，{session.name}！
           </h3>
           <p className="text-sm sm:text-base text-blue-700">
-            {session.role === 'DIRECT_MANAGER'
+            {session.role === 'SUPER_ADMIN'
+              ? '您可以管理所有组织和用户，配置系统设置。'
+              : session.role === 'DIRECT_MANAGER'
               ? '您可以开始录入今日的业绩数据，或查看历史记录。'
               : '您可以查看所有直营经理的业绩数据，进行统计分析。'}
           </p>
@@ -57,6 +64,44 @@ export default async function DashboardPage() {
 
         {/* 快捷操作卡片 - 移动端单列布局 */}
         <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-6 sm:mb-8">
+          {/* 系统管理员功能 */}
+          {session.role === 'SUPER_ADMIN' && (
+            <>
+              <a
+                href="/admin/organizations"
+                className="bg-white rounded-xl shadow-md p-6 sm:p-8 hover:shadow-lg transition active:scale-95 cursor-pointer"
+              >
+                <div className="text-5xl sm:text-6xl mb-4">🏢</div>
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+                  组织管理
+                </h2>
+                <p className="text-base text-gray-600">管理所有组织和项目</p>
+              </a>
+
+              <a
+                href="/admin/users"
+                className="bg-white rounded-xl shadow-md p-6 sm:p-8 hover:shadow-lg transition active:scale-95 cursor-pointer"
+              >
+                <div className="text-5xl sm:text-6xl mb-4">👥</div>
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+                  用户管理
+                </h2>
+                <p className="text-base text-gray-600">管理所有用户账号</p>
+              </a>
+
+              <a
+                href="/admin/settings"
+                className="bg-white rounded-xl shadow-md p-6 sm:p-8 hover:shadow-lg transition active:scale-95 cursor-pointer"
+              >
+                <div className="text-5xl sm:text-6xl mb-4">⚙️</div>
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+                  系统设置
+                </h2>
+                <p className="text-base text-gray-600">系统配置和参数管理</p>
+              </a>
+            </>
+          )}
+
           {/* 直营经理功能 */}
           {session.role === 'DIRECT_MANAGER' && (
             <>
@@ -110,18 +155,6 @@ export default async function DashboardPage() {
               </a>
             </>
           )}
-
-          {/* 个人中心 - 所有用户 */}
-          <a
-            href="/profile"
-            className="bg-white rounded-xl shadow-md p-6 sm:p-8 hover:shadow-lg transition active:scale-95 cursor-pointer"
-          >
-            <div className="text-5xl sm:text-6xl mb-4">👤</div>
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
-              个人中心
-            </h2>
-            <p className="text-base text-gray-600">查看和编辑个人信息</p>
-          </a>
         </div>
       </div>
     </main>
