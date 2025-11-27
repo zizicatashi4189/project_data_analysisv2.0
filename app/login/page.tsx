@@ -43,7 +43,7 @@ export default function LoginPage() {
         {/* Logo - 移动端优化字体 */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mb-2">
-            浦发广分业绩统计
+            私域营销业绩统计
           </h1>
           <p className="text-base sm:text-lg text-gray-600">V2.0 - 移动端优先</p>
         </div>

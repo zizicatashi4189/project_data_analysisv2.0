@@ -6,7 +6,7 @@ export default function HomePage() {
           {/* Logo / Title - 移动端优化字体大小 */}
           <div className="space-y-3 sm:space-y-4">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 leading-tight">
-              浦发广分业绩统计系统
+              私域营销业绩统计系统
             </h1>
             <p className="text-xl sm:text-2xl text-gray-600">V2.0 - 移动端优先</p>
           </div>

@@ -17,7 +17,7 @@ export default async function DashboardPage() {
           <div className="flex justify-between items-center h-14 sm:h-16">
             <div>
               <h1 className="text-base sm:text-xl font-bold text-gray-900">
-                浦发广分业绩统计系统
+                私域营销业绩统计系统
               </h1>
               <p className="text-xs text-gray-500 hidden sm:block">V2.0</p>
             </div>

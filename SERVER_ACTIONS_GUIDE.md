@@ -27,7 +27,7 @@
 - ✅ 快速迭代需求（业务逻辑经常变化）
 - ✅ 开发速度优先于架构灵活性
 
-**本项目就是典型案例**：浦发银行内部业绩统计系统
+**本项目就是典型案例**：私域营销内部业绩统计系统
 
 ---
 
@@ -951,7 +951,7 @@ export async function verifyToken(token: string): Promise<JWTPayload | null> {
 
 ---
 
-### 本项目（浦发银行业绩统计）分析
+### 本项目（私域营销业绩统计）分析
 
 **当前使用 Server Actions 是合理的**，因为：
 - ✅ 主要用户是内部员工
@@ -999,4 +999,4 @@ export async function verifyToken(token: string): Promise<JWTPayload | null> {
 
 **文档版本**：v1.0
 **最后更新**：2025-11-26
-**适用项目**：浦发广分业绩统计系统 V2.0
+**适用项目**：私域营销业绩统计系统 V2.0

@@ -1,5 +1,5 @@
 // Prisma Schema for Performance System V2.0
-// 浦发广分业绩统计系统 - 严格按照 1.0 版本数据结构设计
+// 私域营销业绩统计系统 - 严格按照 1.0 版本数据结构设计
 
 generator client {
   provider = "prisma-client-js"
